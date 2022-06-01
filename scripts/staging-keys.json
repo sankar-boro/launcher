@@ -1,0 +1,53 @@
+{
+    "mnemonic": "panda dose welcome ostrich brief pull lawn table arrest worth ranch faculty",
+    "keys": [
+        {
+            "suffix": "babe",
+            "short": "babe",
+            "format": "sr25519"
+        },
+        {
+            "suffix": "grandpa",
+            "short": "gran",
+            "format": "ed25519"
+        },
+        {
+            "suffix": "im_online",
+            "short": "imon",
+            "format": "sr25519"
+        },
+        {
+            "suffix": "para_validator",
+            "short": "para",
+            "format": "sr25519"
+        },
+        {
+            "suffix": "para_assignment",
+            "short": "asgn",
+            "format": "sr25519"
+        },
+        {
+            "suffix": "authority_discovery",
+            "short": "audi",
+            "format": "sr25519"
+        }
+    ],
+    "names": [
+        {
+            "port": 9941,
+            "name": "Sankar" 
+        },
+        {
+            "port": 9942,
+            "name": "Arun"
+        },
+        {
+            "port": 9943,
+            "name": "Rakhi"
+        },
+        {
+            "port": 9944,
+            "name": "Priya"
+        }
+    ]
+}

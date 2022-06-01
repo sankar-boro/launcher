@@ -1,0 +1,29 @@
+{
+    "mnemonic": "panda dose welcome ostrich brief pull lawn table arrest worth ranch faculty",
+    "keys": [
+        {
+            "suffix": "grandpa",
+            "short": "gran",
+            "format": "ed25519"
+        },
+        {
+            "suffix": "aura",
+            "short": "aura",
+            "format": "sr25519"
+        }
+    ],
+    "names": [
+        {
+            "endpoint": "ws://3.129.43.217:9944",
+            "name": "Arun"
+        },
+        {
+            "endpoint": "ws://18.119.98.236:9944",
+            "name": "Rakhi"
+        },
+        {
+            "endpoint": "ws://3.145.140.210:9944",
+            "name": "Priya"
+        }
+    ]
+}

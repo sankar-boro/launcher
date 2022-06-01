@@ -1,0 +1,97 @@
+// Connect to the first relay chain node to submit the extrinsic.
+	let relayChainApi: ApiPromise = await connect(
+		config.relaychain.nodes[0].wsPort,
+		loadTypeDef(config.types)
+	);
+
+	// Then launch each parachain
+	for (const parachain of config.parachains) {
+		const { id, resolvedId, balance } = parachain;
+		const bin = resolve(config_dir, parachain.bin);
+		if (!fs.existsSync(bin)) {
+			console.error("Parachain binary does not exist: ", bin);
+			process.exit();
+		}
+
+		let chain = parachain.chain;
+		if (chain) {
+			const fullChainName = id ? `${chain}-${id}` : `${chain}`;
+			const chainSpec = `${fullChainName}.chain_spec.json`;
+			const rawChainSpec = `${fullChainName}-raw.chain_spec.json`;
+
+			const chainSpecExists = fs.existsSync(rawChainSpec);
+			if ((!config.reuseChainSpec && chainSpecExists) || !chainSpecExists) {
+				await generateChainSpec(bin, chain, chainSpec);
+				chain = resolve(`${fullChainName}.chain_spec.json`);
+
+				await generateChainSpecRaw(bin, chain, rawChainSpec);
+				chain = resolve(rawChainSpec);
+
+				const bootNodes = await generateNodeKeys(parachain.nodes);
+				await addBootNodes(rawChainSpec, bootNodes);
+			} else {
+				console.log(`\`reuseChainSpec\` flag enabled, will use existing \`${fullChainName}-raw.chain_spec.json\`, delete it if you don't want to reuse`);
+				chain = resolve(`${fullChainName}-raw.chain_spec.json`);
+			}
+		} else if (config.reuseChainSpec) {
+			console.warn("`\`reuseChainSpec\` flag enabled, you need to specify \`chain\` to take effect")
+		}
+
+		let account = parachainAccount(resolvedId);
+
+		for (const node of parachain.nodes) {
+			const { wsPort, port, flags, name, basePath, rpcPort, nodeKey } = node;
+			console.log(
+				`Starting a Collator for parachain ${resolvedId}: ${account}, Collator port : ${port} wsPort : ${wsPort} rpcPort : ${rpcPort} nodeKey: ${nodeKey}`
+			);
+			const skip_id_arg = !id;
+			await startCollator(bin, resolvedId, wsPort, rpcPort, port, nodeKey!, {
+				name,
+				chain,
+				flags,
+				basePath,
+				skip_id_arg,
+				spec: relayChainRawSpec,
+				onlyOneParachainNode: parachain.nodes.length === 1,
+			});
+		}
+
+		await extendLeasePeriod(
+			relayChainApi,
+			resolvedId,
+			365,
+			config.finalization
+		);
+
+		// Allow time for the TX to complete, avoiding nonce issues.
+		// TODO: Handle nonce directly instead of this.
+		if (balance) {
+			await setBalance(relayChainApi, account, balance, config.finalization);
+		}
+	}
+
+	// Then launch each simple parachain (e.g. an adder-collator)
+	if (config.simpleParachains) {
+		for (const simpleParachain of config.simpleParachains) {
+			const { id, resolvedId, port, balance } = simpleParachain;
+			const bin = resolve(config_dir, simpleParachain.bin);
+			if (!fs.existsSync(bin)) {
+				console.error("Simple parachain binary does not exist: ", bin);
+				process.exit();
+			}
+
+			let account = parachainAccount(resolvedId);
+			console.log(`Starting Parachain ${resolvedId}: ${account}`);
+			const skipIdArg = !id;
+			await startSimpleCollator(bin, resolvedId, relayChainRawSpec, port, skipIdArg);
+
+			// Allow time for the TX to complete, avoiding nonce issues.
+			// TODO: Handle nonce directly instead of this.
+			if (balance) {
+				await setBalance(relayChainApi, account, balance, config.finalization);
+			}
+		}
+	}
+
+	// We don't need the PolkadotJs API anymore
+	await relayChainApi.disconnect();

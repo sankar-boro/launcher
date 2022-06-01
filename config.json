@@ -1,0 +1,126 @@
+{
+    "relaychain": {
+      "bin": "./bin/polkadot",
+      "chain": "sankar-local",
+      "nodes": [
+        {
+          "name": "sankar",
+          "wsPort": 9901,
+          "rpcPort": 8801,
+          "port": 33001,
+          "nodeKey": "807e26fb3fd3d694b8b5f78a04d4bcff2e94a6f2e87bc809d9690e771bba8aca",
+          "basePath": "data/relay_sankar",
+          "flags": [
+            "--rpc-cors=all"
+          ]
+        },
+        {
+          "name": "arun",
+          "wsPort": 9902,
+          "rpcPort": 8802,
+          "port": 33002,
+          "nodeKey": "7b111f101e0e606c3a745f25a8b166de2e557660b2a6e2984a30229553c37252",
+          "basePath": "data/relay_arun",
+          "flags": [
+            "--rpc-cors=all"
+          ]
+        },
+        {
+          "name": "rakhi",
+          "wsPort": 9903,
+          "rpcPort": 8803,
+          "port": 33003,
+          "nodeKey": "9ccd6ab34e54926e5182e7c1cab70aab5fe2ea5d47705d4edde10ba49017cef9",
+          "basePath": "data/relay_rakhi",
+          "flags": [
+            "--rpc-cors=all"
+          ]
+        },
+        {
+          "name": "priya",
+          "wsPort": 9904,
+          "rpcPort": 8804,
+          "port": 33004,
+          "nodeKey": "6e15793131000ba9c880eebb031a36fa04275b2ec03b6a974c6d38144584ae0e",
+          "basePath": "data/relay_priya",
+          "flags": [
+            "--rpc-cors=all"
+          ]
+        }
+      ],
+      "genesis": {
+        "runtime": {
+          "runtime_genesis_config": {
+            "configuration": {
+              "config": {
+                "validation_upgrade_frequency": 10,
+                "validation_upgrade_delay": 10
+              }
+            }
+          },
+          "session_length_in_blocks": 10
+        }
+      }
+    },
+    "parachains": [
+      {
+        "bin": "./bin/polkadot-collator",
+        "chain": "sankar-local",
+        "balance": "1000000000000000000000",
+        "id": 2000,
+        "nodes": [
+          {
+            "name": "alice",
+            "wsPort": 9905,
+            "rpcPort": 8805,
+            "port": 33005,
+            "nodeKey": "81bbf2ee046d4f57ab9ce02e822ac2a3192e4a7b38af757383f3dcb039c15e05",
+            "basePath": "data/para_alice",
+            "flags": [
+              "--rpc-cors=all",
+              "--",
+              "--node-key=1335ac151f2d804189bfc68bd0843a676a3dc2aa6a208326970a75e6c75d4226",
+              "--port=33008",
+              "--rpc-port=8808",
+              "--ws-port=9908"
+            ]
+          },
+          {
+            "name": "bob",
+            "wsPort": 9906,
+            "rpcPort": 8806,
+            "port": 33006,
+            "nodeKey": "49a38e23145509ce5e19d6399383a4fb51395a60c89b22a43c693c395acfb7c8",
+            "basePath": "data/para_bob",
+            "flags": [
+              "--rpc-cors=all",
+              "--",
+              "--port=33009",
+              "--rpc-port=8809",
+              "--ws-port=9909"
+            ]
+          },
+          {
+            "name": "charlie",
+            "wsPort": 9907,
+            "rpcPort": 8807,
+            "port": 33007,
+            "nodeKey": "90bd630dcb5a81ed521c8091fa65ca320e7ed42a60f24e6ebeb19debeb60512c",
+            "basePath": "data/para_charlie",
+            "flags": [
+              "--rpc-cors=all",
+              "--",
+              "--port=33010",
+              "--rpc-port=8810",
+              "--ws-port=9910"
+            ]
+          }
+        ]
+      }
+    ],
+    "hrmpChannels": [],
+    "types": {},
+    "finalization": false,
+    "reuseChainSpec": true
+  }
+  

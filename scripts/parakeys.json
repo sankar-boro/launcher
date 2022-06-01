@@ -1,0 +1,24 @@
+{
+    "mnemonic": "panda dose welcome ostrich brief pull lawn table arrest worth ranch faculty",
+    "formats": [
+        {
+            "suffix": "stash",
+            "keyType": "aura",
+            "format": "sr25519"
+        }
+    ],
+    "names": [
+        {
+            "port": 9905,
+            "name": "Sankar" 
+        },
+        {
+            "port": 9906,
+            "name": "Arun" 
+        },
+        {
+            "port": 9907,
+            "name": "Rakhi" 
+        }
+    ]
+}

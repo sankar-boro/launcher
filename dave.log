@@ -1,0 +1,80 @@
+2022-05-03 14:13:25 Parity Polkadot    
+2022-05-03 14:13:25 ✌️  version 0.9.18-unknown-x86_64-linux-gnu    
+2022-05-03 14:13:25 ❤️  by Parity Technologies <admin@parity.io>, 2017-2022    
+2022-05-03 14:13:25 📋 Chain specification: Rococo Local Testnet    
+2022-05-03 14:13:25 🏷  Node name: previous-giraffe-7255    
+2022-05-03 14:13:25 👤 Role: AUTHORITY    
+2022-05-03 14:13:25 💾 Database: RocksDb at data/relay_dave/chains/rococo_local_testnet/db/full    
+2022-05-03 14:13:25 ⛓  Native runtime: rococo-9180 (parity-rococo-v2.0-0.tx0.au0)    
+2022-05-03 14:13:46 🔨 Initializing Genesis block/state (state: 0x1706…61d7, header-hash: 0xfda1…c63c)    
+2022-05-03 14:13:46 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.    
+2022-05-03 14:13:52 👶 Creating empty BABE epoch changes on what appears to be first startup.    
+2022-05-03 14:13:52 🏷  Local node identity is: 12D3KooWM614TvfiV4rJR7MTZEQ29LmB3Ew6Zdmn8XLiroi8FukQ    
+2022-05-03 14:14:00 📦 Highest known block at #0    
+2022-05-03 14:14:00 〽️ Prometheus exporter started at 127.0.0.1:9615    
+2022-05-03 14:14:00 Listening for new connections on 127.0.0.1:9904.    
+2022-05-03 14:14:00 👶 Starting BABE Authorship worker    
+2022-05-03 14:14:05 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 4.4kiB/s ⬆ 4.5kiB/s    
+2022-05-03 14:14:10 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 1.1kiB/s ⬆ 1.1kiB/s    
+2022-05-03 14:14:15 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.7kiB/s ⬆ 0.7kiB/s    
+2022-05-03 14:14:20 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.5kiB/s ⬆ 0.5kiB/s    
+2022-05-03 14:14:25 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:14:30 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:14:35 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 1.2kiB/s ⬆ 1.2kiB/s    
+2022-05-03 14:14:40 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:14:45 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:14:50 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.2kiB/s ⬆ 0.2kiB/s    
+2022-05-03 14:14:55 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:15:00 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:15:05 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 1.2kiB/s ⬆ 1.2kiB/s    
+2022-05-03 14:15:10 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:15:15 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:15:20 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.1kiB/s ⬆ 0.1kiB/s    
+2022-05-03 14:15:25 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:15:30 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:15:35 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.1kiB/s ⬆ 0.1kiB/s    
+2022-05-03 14:15:40 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:15:45 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:15:50 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.1kiB/s ⬆ 0.1kiB/s    
+2022-05-03 14:15:55 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:16:00 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:16:05 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.5kiB/s ⬆ 0.5kiB/s    
+2022-05-03 14:16:10 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.7kiB/s ⬆ 0.7kiB/s    
+2022-05-03 14:16:15 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:16:20 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.1kiB/s ⬆ 0.1kiB/s    
+2022-05-03 14:16:25 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:16:30 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:16:35 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.1kiB/s ⬆ 0.1kiB/s    
+2022-05-03 14:16:40 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:16:45 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:16:50 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.1kiB/s ⬆ 0.1kiB/s    
+2022-05-03 14:16:55 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:17:00 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:17:05 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.5kiB/s ⬆ 0.5kiB/s    
+2022-05-03 14:17:10 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:17:15 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:17:20 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.1kiB/s ⬆ 0.1kiB/s    
+2022-05-03 14:17:25 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:17:30 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:17:35 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.1kiB/s ⬆ 0.1kiB/s    
+2022-05-03 14:17:40 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:17:45 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:17:50 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.1kiB/s ⬆ 0.1kiB/s    
+2022-05-03 14:17:55 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:18:00 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:18:05 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.5kiB/s ⬆ 0.5kiB/s    
+2022-05-03 14:18:10 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:18:15 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.7kiB/s ⬆ 0.7kiB/s    
+2022-05-03 14:18:20 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.1kiB/s ⬆ 0.1kiB/s    
+2022-05-03 14:18:25 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:18:30 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:18:35 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.1kiB/s ⬆ 0.1kiB/s    
+2022-05-03 14:18:40 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:18:45 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:18:50 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.1kiB/s ⬆ 0.1kiB/s    
+2022-05-03 14:18:55 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:19:00 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:19:05 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 1.5kiB/s ⬆ 1.5kiB/s    
+2022-05-03 14:19:10 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:19:15 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0 ⬆ 0    
+2022-05-03 14:19:20 💤 Idle (3 peers), best: #0 (0xfda1…c63c), finalized #0 (0xfda1…c63c), ⬇ 0.1kiB/s ⬆ 0.1kiB/s    
