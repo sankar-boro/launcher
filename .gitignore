@@ -1,0 +1,11 @@
+node_modules
+dist
+tmp
+configs
+launcher.log
+.env
+bins
+**/target/
+*.swp
+.vscode
+logs
