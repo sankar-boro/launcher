@@ -13,7 +13,7 @@
                 "rpc_port": 8000,
                 "ws_port": 9000,
                 "prometheus_port": 8000,
-                "seed": "//Alice"
+                "seed": "<first-seed>"
             },
             {
                 "name": "bob",
@@ -22,10 +22,10 @@
                 "rpc_port": 8001,
                 "ws_port": 9001,
                 "prometheus_port": 8001,
-                "seed": "//Bob"
+                "seed": "<second-seed>"
             }
         ],
-        "chain_spec_path": "/home/sankar/files/rococo/rococo-local-chain-spec-plain.json"
+        "chain_spec_path": "<relay-chain-spec-path>"
     },
     "parachains": [
         {
@@ -36,12 +36,12 @@
                 "rpc_port": 8002,
                 "ws_port": 9002,
                 "prometheus_port": 8002,
-                "seed": "daughter peasant twelve bless century neglect title mouse habit plate galaxy ticket"
+                "seed": "<collator-one>"
             }],
-            "chain_spec_path": "/home/sankar/files/humidefi/humidefi-2000-defaultkeys-roclocal.json"
+            "chain_spec_path": "<para-chain-spec-path>"
         }
     ],
-    "configBasePath": "/home/sankar/sankar/launcher/chain_specs",
+    "configBasePath": "<config-base-path>",
     "settings": {
         "provider": "native",
         "timeout": 1200

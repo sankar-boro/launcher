@@ -1,7 +1,7 @@
 node_modules
 dist
 tmp
-configs
+configs/data/
 launcher.log
 .env
 bins

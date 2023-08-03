@@ -32,8 +32,9 @@ export async function spawn(
   program: any,
   setGlobalNetwork: (network: Network) => void,
 ): Promise<void> {
+  // {"configFile":"./chain_specs/my-network.json","cmdOpts":{}}
   const opts = { ...program.parent.opts(), ...cmdOpts };
-  const dir = `${process.cwd()}/tmp`;
+  const dir = `${process.env.DATA_DIR}` || `/tmp`;
   const force = opts.force || false;
   const monitor = opts.monitor || false;
   // By default spawn pods/process in batches of 4,
