@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-rm -rf ./launcher.log && \
-rm -rf /home/sankar/.data && \
-DATA_DIR=/home/sankar/.data \
+rm -rf $HOME/launcher.log && \
+rm -rf $HOME/.data && \
+DATA_DIR=$HOME/.data \
 node ./dist/index.js spawn \
 --provider native ./configs/data/humidefi.json
 
