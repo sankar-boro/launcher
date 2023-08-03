@@ -11,11 +11,11 @@ const options: OptIf = {};
 /**
  * Setup - easily download latest artifacts and make them executablein order to use them with zombienet
  * Read more here: https://paritytech.github.io/zombienet/cli/setup.html
- * @param params binaries that willbe downloaded and set up. Possible values: `polkadot` `genesis-node`
+ * @param params binaries that willbe downloaded and set up. Possible values: `polkadot` `polkadot-parachain`
  * @returns
  */
 export async function setup(params: any) {
-  const POSSIBLE_BINARIES = ["polkadot", "genesis-node"];
+  const POSSIBLE_BINARIES = ["polkadot", "polkadot-parachain"];
 
   console.log(decorators.green("\n\n🧟🧟🧟 ZombieNet Setup 🧟🧟🧟\n\n"));
   if (!["linux", "darwin"].includes(process.platform)) {
@@ -40,10 +40,10 @@ export async function setup(params: any) {
   });
 
   await new Promise<void>((resolve) => {
-    latestPolkadotReleaseURL("cumulus", "genesis-node").then(
+    latestPolkadotReleaseURL("cumulus", "polkadot-parachain").then(
       (res: [string, string]) => {
-        options["genesis-node"] = {
-          name: "genesis-node",
+        options["polkadot-parachain"] = {
+          name: "polkadot-parachain",
           url: res[0],
           size: res[1],
         };
@@ -78,7 +78,7 @@ export async function setup(params: any) {
         decorators.red(
           `"${a}" is not one of the possible options for this setup and will be skipped;`,
         ),
-        decorators.green(` Valid options: polkadot genesis-node`),
+        decorators.green(` Valid options: polkadot polkadot-parachain`),
       );
       return;
     }

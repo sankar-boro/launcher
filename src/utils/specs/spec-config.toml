@@ -15,5 +15,5 @@ id = 100
   [parachains.collator]
   name = "collator01"
   image = "test-latest"
-  command = "genesis-node"
+  command = "polkadot-parachain"
   args = ["-lparachain=test"]

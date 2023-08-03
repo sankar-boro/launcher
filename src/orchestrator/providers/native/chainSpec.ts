@@ -125,7 +125,8 @@ export async function getChainSpecRawPara(
     remoteChainSpecFullPath,
   ).replace("{{DEFAULT_COMMAND}}", chainCommand);
 
-  const fullCommand = `genesis-node build-spec --chain ${process.cwd()}/configs/para_chain_spec.json --raw > ${remoteChainSpecRawFullPath}`;
+  const fullCommand = `${chainSpecCommandRaw}  --raw > ${remoteChainSpecRawFullPath}`;
+  // const fullCommand = `${process.env.COLLATOR_BIN || 'polkadot-parachain'} build-spec --chain ${process.cwd()}/configs/para_chain_spec.json --raw > ${remoteChainSpecRawFullPath}`;
   console.log("fullCommand", fullCommand)
   const node = await createTempNodeDef("temp", image, chainName, fullCommand);
 

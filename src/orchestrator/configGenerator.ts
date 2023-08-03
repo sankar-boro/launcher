@@ -736,7 +736,7 @@ export function getFirstCollatorCommand(parachain: ParachainConfig): string {
     cmd = parachain.collator_groups[0].command;
   }
 
-  cmd = cmd || DEFAULT_CUMULUS_COLLATOR_BIN; // no command defined we use the default genesis-node.
+  cmd = cmd || DEFAULT_CUMULUS_COLLATOR_BIN; // no command defined we use the default polkadot-parachain.
   debug(`cmd is ${cmd}`);
   cmd = cmd.split(" ")[0];
   return cmd.split("/").pop()!;

@@ -76,12 +76,10 @@ export async function start(
   launchConfig: LaunchConfig,
   options?: OrcOptionsInterface,
 ) {
-  // const opts = {
-  //   ...{ monitor: false, spawnConcurrency: 1, inCI: false, silent: true },
-  //   ...options,
-  // };
-
-  const opts = {"monitor":false,"spawnConcurrency":4,"inCI":false,"silent":false,"dir":`${process.cwd()}/tmp`,"force":false};
+  const opts = {
+    ...{ monitor: false, spawnConcurrency: 1, inCI: false, silent: true },
+    ...options,
+  };
 
   setSilent(opts.silent);
   let network: Network | undefined;

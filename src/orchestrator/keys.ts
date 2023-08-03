@@ -28,7 +28,6 @@ export async function generateKeyForNode(nodeName?: string, nodeSeed?: string): 
   const tseed = nodeName
     ? `//${nameCase(nodeName)}`
     : u8aToHex(mnemonicToMiniSecret(mnemonic));
-  // const seed = nodeSeed || nodeName === 'genesis-node' ? SEED : tseed;
   const seed = nodeSeed ? nodeSeed : tseed;
 
   const sr_keyring = new Keyring({ type: "sr25519" });
