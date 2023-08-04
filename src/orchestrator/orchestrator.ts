@@ -121,7 +121,7 @@ export async function start(
     const userDefinedTypes: any = loadTypeDef(networkSpec.types);
 
     // use provided dir (and make some validations) or create tmp directory to store needed files
-    const tmpDir = { path: opts.dir };
+    const dataDir = { path: opts.dir };
 
     // If custom path is provided then create it
     if (opts.dir) {
@@ -140,24 +140,23 @@ export async function start(
       }
     }
 
-    const localMagicFilepath = `${tmpDir.path}/finished.txt`;
-    // Create MAGIC file to stop temp/init containers
-    fs.openSync(localMagicFilepath, "w");
-
     // Define chain name and file name to use.
-    const chainSpecFileName = `${networkSpec.relaychain.chain}.json`;
-    const chainName = networkSpec.relaychain.chain;
-    const chainSpecFullPath = `${tmpDir.path}/${chainSpecFileName}`;
-    const chainSpecFullPathPlain = chainSpecFullPath.replace(
-      ".json",
-      "-plain.json",
-    );
 
-    const client: Client = initClient(credentials, namespace, tmpDir.path);
+    const specs = {
+      chainSpecFileName: `${networkSpec.relaychain.chain}.json`,
+      chainName: networkSpec.relaychain.chain,
+      chainSpecFullPath: `${dataDir.path}/${networkSpec.relaychain.chain}.json`,
+      chainSpecFullPathPlain: `${dataDir.path}/${networkSpec.relaychain.chain}.json`.replace(
+        ".json",
+        "-plain.json",
+      )
+    }
+
+    const client: Client = initClient(credentials, namespace, dataDir.path);
 
     if (networkSpec.settings.node_spawn_timeout)
       client.timeout = networkSpec.settings.node_spawn_timeout;
-    network = new Network(client, namespace, tmpDir.path);
+    network = new Network(client, namespace, dataDir.path);
     if (options?.setGlobalNetwork) {
       options.setGlobalNetwork(network);
     }
@@ -177,7 +176,7 @@ export async function start(
         decorators.blue(networkSpec.settings.provider),
       ],
       [decorators.green("Namespace"), namespace],
-      [decorators.green("Temp Dir"), tmpDir.path],
+      [decorators.green("Temp Dir"), dataDir.path],
     ]);
 
     zombieTable.print();
@@ -197,7 +196,7 @@ export async function start(
       process.exit(1);
     }
 
-    const zombieWrapperLocalPath = `${tmpDir.path}/${ZOMBIE_WRAPPER}`;
+    const zombieWrapperLocalPath = `${dataDir.path}/${ZOMBIE_WRAPPER}`;
     const zombieWrapperContent = await fs.promises.readFile(zombieWrapperPath);
     await fs.promises.writeFile(
       zombieWrapperLocalPath,
@@ -220,8 +219,8 @@ export async function start(
 
     // Create bootnode and backchannel services
     debug(`Creating static resources (bootnode and backchannel services)`);
-    await client.staticSetup(networkSpec.settings);
-    await client.createPodMonitor("pod-monitor.yaml", chainName);
+    // await client.staticSetup(networkSpec.settings);
+    // await client.createPodMonitor("pod-monitor.yaml", chainName);
 
     // Set substrate client argument version, needed from breaking change.
     // see https://github.com/paritytech/substrate/pull/13384
@@ -231,30 +230,29 @@ export async function start(
     await setupChainSpec(
       namespace,
       networkSpec.relaychain,
-      chainName,
-      chainSpecFullPathPlain,
+      specs,
     );
 
     // check if we have the chain spec file
-    if (!fs.existsSync(chainSpecFullPathPlain))
+    if (!fs.existsSync(specs.chainSpecFullPathPlain))
       throw new Error("Can't find chain spec file!");
 
     // Check if the chain spec is in raw format
     // Could be if the chain_spec_path was set
-    const chainSpecContent = readAndParseChainSpec(chainSpecFullPathPlain);
+    const chainSpecContent = readAndParseChainSpec(specs.chainSpecFullPathPlain);
     const relayChainSpecIsRaw = Boolean(chainSpecContent.genesis?.raw);
 
     network.chainId = chainSpecContent.id;
     
     /// sankar
     const parachainFilesPromiseGenerator = async (parachain: Parachain) => {
-      const parachainFilesPath = `${tmpDir.path}/${parachain.name}`;
+      const parachainFilesPath = `${dataDir.path}/${parachain.name}`;
       await makeDir(parachainFilesPath);
       await generateParachainFiles(
         namespace,
-        tmpDir.path,
+        dataDir.path,
         parachainFilesPath,
-        chainName,
+        specs.chainName,
         parachain,
         relayChainSpecIsRaw,
       );
@@ -269,12 +267,12 @@ export async function start(
     await series(parachainPromiseGenerators, opts.spawnConcurrency);
 
     for (const parachain of networkSpec.parachains) {
-      const parachainFilesPath = `${tmpDir.path}/${parachain.name}`;
+      const parachainFilesPath = `${dataDir.path}/${parachain.name}`;
       const stateLocalFilePath = `${parachainFilesPath}/${GENESIS_STATE_FILENAME}`;
       const wasmLocalFilePath = `${parachainFilesPath}/${GENESIS_WASM_FILENAME}`;
       if (parachain.addToGenesis && !relayChainSpecIsRaw)
         await addParachainToGenesis(
-          chainSpecFullPathPlain,
+          specs.chainSpecFullPathPlain,
           parachain.id.toString(),
           stateLocalFilePath,
           wasmLocalFilePath,
@@ -284,15 +282,15 @@ export async function start(
     /// sankar
     
     if (!relayChainSpecIsRaw) {
-      await customizePlainRelayChain(chainSpecFullPathPlain, networkSpec);
+      await customizePlainRelayChain(specs.chainSpecFullPathPlain, networkSpec);
 
       // generate the raw chain spec
       await getChainSpecRaw(
         namespace,
         networkSpec.relaychain.defaultImage,
-        chainName,
+        specs.chainName,
         networkSpec.relaychain.defaultCommand,
-        chainSpecFullPath,
+        specs.chainSpecFullPath,
       );
     } else {
       console.log(
@@ -300,12 +298,12 @@ export async function start(
           "Chain Spec was set to a file in raw format, can't customize.",
         )} 🚧`,
       );
-      await fs.promises.copyFile(chainSpecFullPathPlain, chainSpecFullPath);
+      await fs.promises.copyFile(specs.chainSpecFullPathPlain, specs.chainSpecFullPath);
     }
 
     // ensure chain raw is ok
     try {
-      const chainSpecContent = readAndParseChainSpec(chainSpecFullPathPlain);
+      const chainSpecContent = readAndParseChainSpec(specs.chainSpecFullPathPlain);
       debug(`Chain name: ${chainSpecContent.name}`);
 
       new CreateLogTable({ colWidths: [120], doubleBorder: true }).pushToPrint([
@@ -319,22 +317,22 @@ export async function start(
       );
       throw new Error(
         `${decorators.red(`Error:`)} \t ${decorators.bright(
-          ` chain-spec raw file at ${chainSpecFullPath} is not a valid JSON`,
+          ` chain-spec raw file at ${specs.chainSpecFullPath} is not a valid JSON`,
         )}`,
       );
     }
 
     // clear bootnodes
-    await addBootNodes(chainSpecFullPath, []);
+    await addBootNodes(specs.chainSpecFullPath, []);
 
     // store the chain spec path to use in tests
-    network.chainSpecFullPath = chainSpecFullPath;
+    network.chainSpecFullPath = specs.chainSpecFullPath;
 
     // files to include in each node
     const filesToCopyToNodes: fileMap[] = [
       {
-        localFilePath: chainSpecFullPath,
-        remoteFilePath: `${client.remoteDir}/${chainSpecFileName}`,
+        localFilePath: specs.chainSpecFullPath,
+        remoteFilePath: `${client.remoteDir}/${specs.chainSpecFileName}`,
       },
       {
         localFilePath: zombieWrapperLocalPath,
@@ -388,7 +386,7 @@ export async function start(
 
       // add bootnodes to chain spec
       bootnodes.push(nodeMultiAddress);
-      await addBootNodes(chainSpecFullPath, bootnodes);
+      await addBootNodes(specs.chainSpecFullPath, bootnodes);
     }
 
     const promiseGenerators = networkSpec.relaychain.nodes.map((node: Node) => {
@@ -422,7 +420,7 @@ export async function start(
     for (const parachain of networkSpec.parachains) {
       if (!parachain.addToGenesis && parachain.registerPara) {
         // register parachain on a running network
-        const basePath = `${tmpDir.path}/${parachain.name}`;
+        const basePath = `${dataDir.path}/${parachain.name}`;
         // ensure node is up.
         await nodeChecker(network.relay[0]);
         await registerParachain({
@@ -503,7 +501,7 @@ export async function start(
     // clean cache before dump the info.
     network.cleanMetricsCache();
     await fs.promises.writeFile(
-      `${tmpDir.path}/zombie.json`,
+      `${dataDir.path}/zombie.json`,
       JSON.stringify(network),
     );
 

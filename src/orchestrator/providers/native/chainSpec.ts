@@ -14,16 +14,16 @@ const debug = require("debug")("zombie::native::chain-spec");
 export async function setupChainSpec(
   namespace: string,
   chainConfig: any,
-  chainName: string,
-  chainFullPath: string,
+  specs: any,
 ): Promise<any> {
+  const { chainName, chainSpecFullPathPlain } = specs;
   // We have two options to get the chain-spec file, neither should use the `raw` file/argument
   // 1: User provide the file (we DON'T expect the raw file)
   // 2: User provide the chainSpecCommand (without the --raw option)
   const client = getClient();
   if (chainConfig.chainSpecPath) {
     // copy file to temp to use
-    await fsPromises.copyFile(chainConfig.chainSpecPath, chainFullPath);
+    await fsPromises.copyFile(chainConfig.chainSpecPath, chainSpecFullPathPlain);
   } else {
     if (chainConfig.chainSpecCommand) {
       const { defaultImage, chainSpecCommand } = chainConfig;
@@ -42,7 +42,7 @@ export async function setupChainSpec(
 
       const podDef = await genNodeDef(namespace, node);
       await client.spawnFromDef(podDef);
-      await fsPromises.copyFile(plainChainSpecOutputFilePath, chainFullPath);
+      await fsPromises.copyFile(plainChainSpecOutputFilePath, chainSpecFullPathPlain);
     }
   }
 }
