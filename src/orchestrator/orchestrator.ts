@@ -65,7 +65,7 @@ export interface OrcOptionsInterface {
   monitor?: boolean;
   spawnConcurrency?: number;
   inCI?: boolean;
-  dir?: string;
+  dir: string;
   force?: boolean;
   silent?: boolean; // Mute logging output
   setGlobalNetwork?: (network: Network) => void;
@@ -74,7 +74,7 @@ export interface OrcOptionsInterface {
 export async function start(
   credentials: string,
   launchConfig: LaunchConfig,
-  options?: OrcOptionsInterface,
+  options: OrcOptionsInterface,
 ) {
   const opts = {
     ...{ monitor: false, spawnConcurrency: 1, inCI: false, silent: true },
@@ -115,16 +115,13 @@ export async function start(
     }, networkSpec.settings.timeout * 1000);
 
     // set namespace
-    const randomBytes = networkSpec.settings.provider === "podman" ? 4 : 16;
-    const namespace = `zombie-${generateNamespace(randomBytes)}`;
+    const namespace = `zeeve`;
 
     // get user defined types
     const userDefinedTypes: any = loadTypeDef(networkSpec.types);
 
     // use provided dir (and make some validations) or create tmp directory to store needed files
-    const tmpDir = opts.dir
-      ? { path: opts.dir }
-      : await tmp.dir({ prefix: `${namespace}_` });
+    const tmpDir = { path: opts.dir };
 
     // If custom path is provided then create it
     if (opts.dir) {
@@ -530,26 +527,5 @@ export async function start(
     }
     if (cronInterval) clearInterval(cronInterval);
     process.exit(1);
-  }
-}
-
-export async function test(
-  credentials: string,
-  networkConfig: LaunchConfig,
-  cb: (network: Network) => void,
-) {
-  let network: Network | undefined;
-  try {
-    await start(credentials, networkConfig, { force: true });
-    // await cb(network);
-  } catch (error) {
-    console.log(
-      `\n ${decorators.red("Error: ")} \t ${decorators.bright(error)}\n`,
-    );
-  } finally {
-    if (network) {
-      await network.dumpLogs();
-      await network.stop();
-    }
   }
 }
