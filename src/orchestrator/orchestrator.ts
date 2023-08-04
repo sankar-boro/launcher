@@ -15,7 +15,7 @@ import {
   sleep,
 } from "../utils";
 import fs from "fs";
-import tmp from "tmp-promise";
+import { promises as fsPromises } from "fs";
 import {
   addBootNodes,
   addParachainToGenesis,
@@ -101,7 +101,7 @@ export async function start(
 
     debug(JSON.stringify(networkSpec, null, 4));
 
-    const { initClient, setupChainSpec, getChainSpecRaw } = getProvider(
+    const { initClient, getChainSpecRaw } = getProvider(
       networkSpec.settings.provider,
     );
 
@@ -196,18 +196,6 @@ export async function start(
       process.exit(1);
     }
 
-    const zombieWrapperLocalPath = `${dataDir.path}/${ZOMBIE_WRAPPER}`;
-    const zombieWrapperContent = await fs.promises.readFile(zombieWrapperPath);
-    await fs.promises.writeFile(
-      zombieWrapperLocalPath,
-      zombieWrapperContent
-        .toString()
-        .replace("{{REMOTE_DIR}}", client.remoteDir!),
-      {
-        mode: 0o755,
-      },
-    );
-
     // create namespace
     await client.createNamespace();
 
@@ -224,14 +212,17 @@ export async function start(
 
     // Set substrate client argument version, needed from breaking change.
     // see https://github.com/paritytech/substrate/pull/13384
-    await setSubstrateCliArgsVersion(networkSpec, client);
+    // await setSubstrateCliArgsVersion(networkSpec, client);
 
     // create or copy relay chain spec
-    await setupChainSpec(
-      namespace,
-      networkSpec.relaychain,
-      specs,
-    );
+    // await setupChainSpec(
+    //   namespace,
+    //   networkSpec.relaychain,
+    //   specs,
+    // );
+    if (networkSpec.relaychain.chainSpecPath) {
+      await fsPromises.copyFile(networkSpec.relaychain.chainSpecPath, specs.chainSpecFullPathPlain);
+    }
 
     // check if we have the chain spec file
     if (!fs.existsSync(specs.chainSpecFullPathPlain))
@@ -333,11 +324,7 @@ export async function start(
       {
         localFilePath: specs.chainSpecFullPath,
         remoteFilePath: `${client.remoteDir}/${specs.chainSpecFileName}`,
-      },
-      {
-        localFilePath: zombieWrapperLocalPath,
-        remoteFilePath: `${client.remoteDir}/${ZOMBIE_WRAPPER}`,
-      },
+      }
     ];
 
     const bootnodes: string[] = [];

@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "clean": "npm run clean --workspaces --if-present",
-    "build": "tsc",
+    "build": "rm -rf dist && tsc",
     "lint": "eslint './**' && npx prettier -c .",
     "lint:write": "eslint './**' --fix && npx prettier --write .",
     "package": "npm run -w packages/cli package",
