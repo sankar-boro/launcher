@@ -8,6 +8,7 @@
 
 rm -rf ./launcher.log && \
 rm -rf ./tmp && \
+rm -rf ~/.data/* && \
 DATA_DIR=./tmp \
 nohup node ./dist/index.js spawn \
 --provider native ./configs/data/humidefi.json &> launcher.log &

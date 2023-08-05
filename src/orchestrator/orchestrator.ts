@@ -200,10 +200,10 @@ export async function start(
     await client.createNamespace();
 
     // setup cleaner
-    if (!opts.monitor) {
-      cronInterval = await client.setupCleaner();
-      debug("Cleanner job configured");
-    }
+    // if (!opts.monitor) {
+    //   cronInterval = await client.setupCleaner();
+    //   debug("Cleanner job configured");
+    // }
 
     // Create bootnode and backchannel services
     debug(`Creating static resources (bootnode and backchannel services)`);
@@ -270,6 +270,7 @@ export async function start(
         );
     }
 
+    console.log(JSON.stringify(networkSpec));
     /// sankar
     
     if (!relayChainSpecIsRaw) {
@@ -334,28 +335,10 @@ export async function start(
       networkSpec.relaychain.nodes.unshift(bootnodeSpec);
     }
 
-    const monitorIsAvailable = await client.isPodMonitorAvailable();
-    let jaegerUrl: string | undefined = undefined;
-    if (networkSpec.settings.enable_tracing) {
-      switch (client.providerName) {
-        case "kubernetes":
-          if (networkSpec.settings.jaeger_agent)
-            jaegerUrl = networkSpec.settings.jaeger_agent;
-          break;
-        case "podman":
-          jaegerUrl = `${await client.getNodeIP("tempo")}:6831`;
-          break;
-      }
-      if (process.env.ZOMBIE_JAEGER_URL)
-        jaegerUrl = process.env.ZOMBIE_JAEGER_URL;
-    }
-
     const spawnOpts = {
       silent: opts.silent,
       inCI: opts.inCI,
-      monitorIsAvailable,
       userDefinedTypes,
-      jaegerUrl,
       local_ip: networkSpec.settings.local_ip,
     };
 
@@ -458,20 +441,20 @@ export async function start(
 
     // spawn polkadot-introspector if is enable and IFF provider is
     // podman or kubernetes
-    if (
-      networkSpec.settings.polkadot_introspector &&
-      ["podman", "kubernetes"].includes(client.providerName)
-    ) {
-      const introspectorNetworkNode = await spawnIntrospector(
-        client,
-        network.relay[0],
-        options?.inCI,
-      );
-      network.addNode(introspectorNetworkNode, Scope.COMPANION);
-    }
+    // if (
+    //   networkSpec.settings.polkadot_introspector &&
+    //   ["podman", "kubernetes"].includes(client.providerName)
+    // ) {
+    //   const introspectorNetworkNode = await spawnIntrospector(
+    //     client,
+    //     network.relay[0],
+    //     options?.inCI,
+    //   );
+    //   network.addNode(introspectorNetworkNode, Scope.COMPANION);
+    // }
 
     // Set `tracing_collator` config to the network if is available.
-    await setTracingCollatorConfig(networkSpec, network, client);
+    // await setTracingCollatorConfig(networkSpec, network, client);
 
     // sleep to give time to last node process' to start
     await sleep(2 * 1000);

@@ -37,10 +37,8 @@ export const spawnNode = async (
   opts: {
     silent: boolean;
     inCI: boolean;
-    monitorIsAvailable: boolean;
     userDefinedTypes?: any;
     local_ip?: string;
-    jaegerUrl?: string;
   },
   parachain?: Parachain,
 ): Promise<NodeMultiAddress> => {
@@ -53,8 +51,6 @@ export const spawnNode = async (
   // for relay chain we can have more than one bootnode.
   if ([ZombieRole.Node, ZombieRole.Collator].includes(node.zombieRole))
     node.bootnodes = node.bootnodes.concat(bootnodes);
-
-  if (opts.jaegerUrl) node.jaegerUrl = opts.jaegerUrl;
 
   debug(`creating node: ${node.name}`);
   const podDef = await (node.name === "bootnode"
@@ -211,31 +207,20 @@ export const spawnNode = async (
       ]);
     }
   }
-  if (opts.monitorIsAvailable) {
-    const loki_url = getLokiUrl(
-      namespace,
-      podDef.metadata.name,
-      network.networkStartTime!,
-    );
-    logTable.pushTo([
-      [decorators.green("Grafana logs url"), decorators.magenta(loki_url)],
-    ]);
-  } else {
-    logTable.pushTo([
-      [
-        {
-          colSpan: 2,
-          content: decorators.magenta(
-            "You can follow the logs of the node by running this command: ",
-          ),
-        },
-      ],
-    ]);
-    logTable.print();
+  logTable.pushTo([
+    [
+      {
+        colSpan: 2,
+        content: decorators.magenta(
+          "You can follow the logs of the node by running this command: ",
+        ),
+      },
+    ],
+  ]);
+  logTable.print();
 
-    if (!opts.silent)
-      console.log(client.getLogsCommand(podDef.metadata.name) + "\n\n");
-  }
+  if (!opts.silent)
+    console.log(client.getLogsCommand(podDef.metadata.name) + "\n\n");
 
   return nodeMultiAddress;
 };

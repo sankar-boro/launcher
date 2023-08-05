@@ -85,17 +85,6 @@ export class NativeClient extends Client {
   }
 
   async createNamespace(): Promise<void> {
-    const namespaceDef = {
-      apiVersion: "v1",
-      kind: "Namespace",
-      metadata: {
-        name: this.namespace,
-      },
-    };
-
-    writeLocalJsonFile(this.tmpDir, "namespace", namespaceDef);
-    // Native provider don't have the `namespace` isolation.
-    // but we create the `remoteDir` to place files
     await makeDir(this.remoteDir, true);
     return;
   }

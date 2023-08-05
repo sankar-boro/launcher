@@ -54,7 +54,7 @@ export async function generateParachainFiles(
   const wasmLocalFilePath = `${parachainFilesPath}/${GENESIS_WASM_FILENAME}`;
   const client = getClient();
 
-  const { setupChainSpec, getChainSpecRaw, getChainSpecRawPara } = Providers.get(
+  const { setupChainSpec, getChainSpecRawPara } = Providers.get(
     client.providerName,
   );
 
@@ -64,7 +64,7 @@ export async function generateParachainFiles(
   }-${relayChainName}`;
   const chainSpecFileName = `${chainName}.json`;
 
-  const chainSpecFullPathPlain = `${tmpDir}/${chainName}-plain.json`;
+  const paraChainSpecFullPathPlain = `${tmpDir}/${chainName}-plain.json`;
 
   if (parachain.cumulusBased) {
     // need to create the parachain spec
@@ -73,13 +73,13 @@ export async function generateParachainFiles(
 
     // Check if the chain-spec file is provided.
     if (parachain.chainSpecPath) {
-      debug("parachain chain spec provided");
+      console.log("parachain chain spec provided");
       await fs.promises.copyFile(
         parachain.chainSpecPath,
-        chainSpecFullPathPlain,
+        paraChainSpecFullPathPlain,
       );
     } else {
-      debug("creating chain spec plain");
+      console.log("creating chain spec plain");
       // create or copy chain spec
       await setupChainSpec(
         namespace,
@@ -91,14 +91,27 @@ export async function generateParachainFiles(
           defaultImage: parachain.collators[0].image,
         },
         chainName,
-        chainSpecFullPathPlain,
+        paraChainSpecFullPathPlain,
       );
     }
 
     chainSpecFullPath = `${tmpDir}/${chainSpecFileName}`;
-    if (!(await isRawSpec(chainSpecFullPathPlain))) {
+
+    console.log(JSON.stringify({
+      GENESIS_STATE_FILENAME_WITH_ID,
+      GENESIS_WASM_FILENAME_WITH_ID,
+      stateLocalFilePath,
+      wasmLocalFilePath,
+      chainSpecFullPath,
+      chainName,
+      chainSpecFileName,
+      paraChainSpecFullPathPlain
+    }))
+    
+    if (!(await isRawSpec(paraChainSpecFullPathPlain))) {
+      console.log("isn't a raw spec")
       // fields
-      const plainData = readAndParseChainSpec(chainSpecFullPathPlain);
+      const plainData = readAndParseChainSpec(paraChainSpecFullPathPlain);
       const relayChainSpec = readAndParseChainSpec(relayChainSpecFullPathPlain);
       if (plainData.para_id) plainData.para_id = parachain.id;
       if (plainData.paraId) plainData.paraId = parachain.id;
@@ -106,24 +119,28 @@ export async function generateParachainFiles(
       if (plainData.genesis.runtime?.parachainInfo?.parachainId)
         plainData.genesis.runtime.parachainInfo.parachainId = parachain.id;
 
-      writeChainSpec(chainSpecFullPathPlain, plainData);
+      writeChainSpec(paraChainSpecFullPathPlain, plainData);
 
       // make genesis overrides first.
-      if (parachain.genesis)
-        await changeGenesisConfig(chainSpecFullPathPlain, parachain.genesis);
+      if (parachain.genesis) {
+        console.log('changeGenesisConfig')
+        await changeGenesisConfig(paraChainSpecFullPathPlain, parachain.genesis);
+      }
 
       // clear auths
-      await clearAuthorities(chainSpecFullPathPlain);
+      await clearAuthorities(paraChainSpecFullPathPlain);
 
       // Chain spec customization logic
       const addToSession = async (node: Node) => {
+        console.log('addToSession')
         const key = getNodeKey(node, false);
-        await addAuthority(chainSpecFullPathPlain, node, key);
+        await addAuthority(paraChainSpecFullPathPlain, node, key);
       };
 
       const addToAura = async (node: Node) => {
+        console.log('addToAura')
         await addAuraAuthority(
-          chainSpecFullPathPlain,
+          paraChainSpecFullPathPlain,
           node.name,
           node.accounts!,
         );
@@ -135,9 +152,12 @@ export async function generateParachainFiles(
 
       for (const node of parachain.collators) {
         if (node.validator) {
+          console.log('addAuthFn')
           await addAuthFn(node);
-          await addCollatorSelection(chainSpecFullPathPlain, node);
-          await addParaCustom(chainSpecFullPathPlain, node);
+          console.log('addCollatorSelection')
+          await addCollatorSelection(paraChainSpecFullPathPlain, node);
+          console.log('addParaCustom')
+          await addParaCustom(paraChainSpecFullPathPlain, node);
         }
       }
 
@@ -145,7 +165,7 @@ export async function generateParachainFiles(
       // ensure needed file
       if (parachain.chain)
         fs.copyFileSync(
-          chainSpecFullPathPlain,
+          paraChainSpecFullPathPlain,
           `${tmpDir}/${parachain.chain}-${parachain.name}-plain.json`,
         );
       // generate the raw chain spec
@@ -164,7 +184,7 @@ export async function generateParachainFiles(
           `Chain Spec for paraId ${parachain.id} was set to a file in raw format, can't customize.`,
         )} 🚧`,
       );
-      await fs.promises.copyFile(chainSpecFullPathPlain, chainSpecFullPath);
+      await fs.promises.copyFile(paraChainSpecFullPathPlain, chainSpecFullPath);
     }
 
     try {
